@@ -1,6 +1,7 @@
 import shutil  # Для проверки наличия программы
 import smtplib
 from email.mime.text import MIMEText
+from tkinter import Tk, Button, Label, Text, END
 
 # Функция для проверки версий программ
 def check_versions():
@@ -47,14 +48,21 @@ def send_email(smtp_server, smtp_port, login, password, to_email, subject, body)
             server.login(login, password)
             server.sendmail(login, to_email, msg.as_string())
     except Exception as e:
-        print(f"Ошибка при отправке email: {e}")
         raise RuntimeError(f"Ошибка при отправке email: {e}")
 
-if __name__ == "__main__":
-    result = check_versions()
-    print(result)
+# Функция для обработки нажатия кнопки "Проверить версии"
+def on_check_versions():
+    report = check_versions()
+    report_text.delete(1.0, END)
+    report_text.insert(END, report)
 
-    # Настройки для отправки email
+# Функция для обработки нажатия кнопки "Отправить отчет"
+def on_send_report():
+    report = report_text.get(1.0, END).strip()
+    if not report:
+        report_text.insert(END, "\nПожалуйста, сначала выполните проверку версий.")
+        return
+
     EMAIL_SETTINGS = {
         "smtp_server": "smtp.gmail.com",
         "smtp_port": 587,
@@ -71,8 +79,25 @@ if __name__ == "__main__":
             password=EMAIL_SETTINGS["password"],
             to_email=EMAIL_SETTINGS["to_email"],
             subject="Отчет о проверке версий ПО",
-            body=result
+            body=report
         )
-        print("Отчет успешно отправлен на email.")
+        report_text.insert(END, "\nОтчет успешно отправлен на email.")
     except RuntimeError as e:
-        print(f"Не удалось отправить отчет: {e}")
+        report_text.insert(END, f"\nНе удалось отправить отчет: {e}")
+
+if __name__ == "__main__":
+    # Создание интерфейса
+    root = Tk()
+    root.title("Проверка версий ПО")
+    root.geometry("600x400")
+
+    check_button = Button(root, text="Проверить версии", command=on_check_versions)
+    check_button.pack(pady=10)
+
+    send_button = Button(root, text="Отправить отчет", command=on_send_report)
+    send_button.pack(pady=10)
+
+    report_text = Text(root, wrap="word", height=15, width=70)
+    report_text.pack(pady=10)
+
+    root.mainloop()
