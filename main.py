@@ -1,8 +1,9 @@
 import shutil  # Для проверки наличия программы
 import smtplib
 from email.mime.text import MIMEText
-from tkinter import Tk, Button, Label, Text, END, StringVar, OptionMenu
+from tkinter import Tk, Button, Label, Text, END, StringVar, OptionMenu, Toplevel, Entry
 import json
+import datetime
 
 # Глобальный выбор языка
 current_language = "ru"
@@ -20,8 +21,6 @@ LANGUAGES = load_languages()
 def translate(key):
     """Получает перевод для текущего языка."""
     return LANGUAGES[current_language].get(key, key)
-
-# Остальной код остается без изменений
 
 def check_versions():
     """Проверка версий Python, Ruby и Go как на вашем ПК, так и онлайн."""
@@ -109,7 +108,38 @@ def update_ui_text():
     root.title(translate("title"))
     check_button.config(text=translate("check_button"))
     send_button.config(text=translate("send_button"))
+    feedback_button.config(text=translate("feedback_button"))
     language_label.config(text=translate("language_label"))
+
+def save_feedback(feedback_text):
+    """Сохраняет отзыв в файл."""
+    try:
+        with open("feedback.log", "a", encoding="utf-8") as log_file:
+            timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            log_file.write(f"[{timestamp}] {feedback_text}\n")
+    except Exception as e:
+        report_text.insert(END, f"Error saving feedback: {e}")
+
+def on_feedback():
+    """Открывает окно для ввода отзыва."""
+    feedback_window = Toplevel(root)
+    feedback_window.title(translate("feedback_window_title"))
+    feedback_window.geometry("400x200")
+
+    feedback_label = Label(feedback_window, text=translate("feedback_label"))
+    feedback_label.pack(pady=10)
+
+    feedback_entry = Entry(feedback_window, width=50)
+    feedback_entry.pack(pady=10)
+
+    def submit_feedback():
+        feedback_text = feedback_entry.get().strip()
+        if feedback_text:
+            save_feedback(feedback_text)
+            feedback_window.destroy()
+
+    submit_button = Button(feedback_window, text=translate("submit_feedback"), command=submit_feedback)
+    submit_button.pack(pady=10)
 
 if __name__ == "__main__":
     root = Tk()
@@ -128,6 +158,9 @@ if __name__ == "__main__":
 
     send_button = Button(root, text=translate("send_button"), command=on_send_report)
     send_button.pack(pady=10)
+
+    feedback_button = Button(root, text=translate("feedback_button"), command=on_feedback)
+    feedback_button.pack(pady=10)
 
     report_text = Text(root, wrap="word", height=15, width=70)
     report_text.pack(pady=10)
