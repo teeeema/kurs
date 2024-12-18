@@ -6,7 +6,11 @@
     "language_label": "Выберите язык:",
     "report_success": "\nОтчет успешно отправлен на email.",
     "report_error": "\nНе удалось отправить отчет: ",
-    "no_report": "\nПожалуйста, сначала выполните проверку версий."
+    "no_report": "\nПожалуйста, сначала выполните проверку версий.",
+    "feedback_button": "Оставить отзыв",
+    "feedback_window_title": "Оставить отзыв",
+    "feedback_label": "Введите ваш отзыв:",
+    "submit_feedback": "Отправить"
   },
   "en": {
     "title": "Software Version Checker",
@@ -15,6 +19,10 @@
     "language_label": "Select Language:",
     "report_success": "\nThe report has been successfully sent to email.",
     "report_error": "\nFailed to send the report: ",
-    "no_report": "\nPlease check versions first."
+    "no_report": "\nPlease check versions first.",
+    "feedback_button": "Leave Feedback",
+    "feedback_window_title": "Leave Feedback",
+    "feedback_label": "Enter your feedback:",
+    "submit_feedback": "Submit"
   }
 }
