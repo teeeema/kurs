@@ -1,0 +1,20 @@
+{
+  "ru": {
+    "title": "Проверка версий ПО",
+    "check_button": "Проверить версии",
+    "send_button": "Отправить отчет",
+    "language_label": "Выберите язык:",
+    "report_success": "\nОтчет успешно отправлен на email.",
+    "report_error": "\nНе удалось отправить отчет: ",
+    "no_report": "\nПожалуйста, сначала выполните проверку версий."
+  },
+  "en": {
+    "title": "Software Version Checker",
+    "check_button": "Check Versions",
+    "send_button": "Send Report",
+    "language_label": "Select Language:",
+    "report_success": "\nThe report has been successfully sent to email.",
+    "report_error": "\nFailed to send the report: ",
+    "no_report": "\nPlease check versions first."
+  }
+}
